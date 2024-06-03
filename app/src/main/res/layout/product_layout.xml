@@ -1,72 +1,78 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content">
-
-
-<RelativeLayout
-    android:layout_width="wrap_content"
     android:layout_height="wrap_content"
-    android:id="@+id/nameDes"
-    android:layout_margin="30dp"
-    >
-    <TextView
-        android:id="@+id/productName"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
-        android:text="Test Product"
-        android:textColor="@color/white"
-        android:textStyle="bold"
-        />
+    android:layout_margin="8dp"
+    app:cardCornerRadius="16dp"
+    app:cardElevation="8dp"
+    android:backgroundTint="@color/lightpink">
 
-    <TextView
-        android:id="@+id/productDescription"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="4dp"
-        android:text="Test Product Description"
-        android:textColor="@color/white"
-        android:layout_below="@id/productName"
-        />
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/unit"
-        android:textColor="@color/white"
-        android:text="Rs. "
-        android:layout_marginTop="4dp"
-        android:layout_below="@+id/productDescription"/>
-
-    <TextView
-        android:id="@+id/productPrice"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="4dp"
-        android:text="1500 RS"
-        android:textColor="@color/white"
-        android:layout_toEndOf="@+id/unit"
-        android:layout_below="@id/productDescription"
-        />
-
-
-</RelativeLayout>
-
-    <ImageView
-        android:id="@+id/productImage"
-        android:layout_width="100dp"
-        android:layout_height="100dp"
-        android:scaleType="centerCrop"
-        android:layout_margin="30dp"
-        android:layout_alignParentRight="true"/>
-
-    <View
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:layout_marginTop="16dp"
-        android:background="#c0c0c0"
-        android:layout_below="@id/productImage" />
+        android:layout_height="wrap_content"
+        android:padding="16dp">
+        <ImageView
+            android:id="@+id/productImage"
+            android:layout_width="match_parent"
+            android:layout_height="200dp"
+            android:scaleType="centerCrop"
+            android:src="@drawable/baseline_image_24"/>
 
-</RelativeLayout>
+        <TextView
+            android:id="@+id/productName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/productImage"
+            android:layout_marginTop="8dp"
+            android:text="Test"
+            android:textColor="@color/darkpink"
+            android:textSize="25dp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/productDescription"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentStart="true"
+            android:layout_marginTop="8dp"
+            android:text="Description"
+            android:textColor="@color/darkpink"
+            android:textSize="20dp"
+            android:layout_below="@id/productName"
+            />
+
+        <TextView
+            android:id="@+id/productPrice"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentStart="true"
+            android:layout_marginTop="8dp"
+            android:text="1500"
+            android:textColor="@color/darkpink"
+            android:textSize="16dp"
+            android:textStyle="bold"
+            android:layout_below="@id/productDescription"
+            android:layout_toEndOf="@id/unit"
+            android:layout_marginStart="25dp"/>
+
+
+
+        <TextView
+            android:id="@+id/unit"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentStart="true"
+            android:layout_marginTop="8dp"
+            android:text="Rs. "
+            android:textColor="@color/darkpink"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            android:layout_below="@id/productDescription"
+            />
+
+    </RelativeLayout>
+
+
+
+</androidx.cardview.widget.CardView>
