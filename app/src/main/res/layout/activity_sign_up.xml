@@ -31,16 +31,49 @@
         android:minHeight="48dp" />
 
     <EditText
+        android:id="@+id/editTextCNIC"
+        android:background="@drawable/edittextbackground"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginBottom="16dp"
+        android:layout_below="@+id/editTextEmail"
+        android:hint="CNIC"
+        android:textColor="@color/darkpink"
+        android:textColorHint="@color/lightpink"
+        android:inputType="textEmailAddress"
+         />
+
+
+
+    <EditText
         android:id="@+id/editTextPassword"
         android:background="@drawable/edittextbackground"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@id/editTextEmail"
+        android:layout_below="@id/editTextCNIC"
         android:layout_marginStart="16dp"
-        android:layout_marginTop="16dp"
+        android:layout_marginTop="10dp"
         android:layout_marginEnd="16dp"
         android:layout_marginBottom="16dp"
         android:hint="Password"
+        android:textColorHint="@color/lightpink"
+        android:textColor="@color/darkpink"
+        android:inputType="textPassword"
+        android:minHeight="48dp" />
+    <EditText
+        android:id="@+id/editTextCPassword"
+        android:background="@drawable/edittextbackground"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/editTextPassword"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginBottom="16dp"
+        android:hint="Confirm Password"
         android:textColorHint="@color/lightpink"
         android:textColor="@color/darkpink"
         android:inputType="textPassword"
@@ -50,7 +83,7 @@
         android:id="@+id/buttonSignUp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@id/editTextPassword"
+        android:layout_below="@id/editTextCPassword"
         android:layout_centerHorizontal="true"
         android:text="Sign Up"
         android:backgroundTint="@color/darkpink"

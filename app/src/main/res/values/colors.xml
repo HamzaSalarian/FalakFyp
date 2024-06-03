@@ -11,5 +11,7 @@
     <color name="darkpink">#E92B6B</color>
     <color name="levenderBlush">#E8C8DC</color>
     <color name="pinkLevender">#d4a6ba</color>
+    <color name="activeColor">#E92B6B</color>
+    <color name="inactiveColor">#E8C8DC</color>
 
 </resources>

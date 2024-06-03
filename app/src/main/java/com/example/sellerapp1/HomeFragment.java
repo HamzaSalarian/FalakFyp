@@ -11,6 +11,8 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -22,6 +24,7 @@ public class HomeFragment extends Fragment {
 
     TextView totalProducts;
     DatabaseReference databaseReference;
+    FirebaseUser user;
 
 
     @Override
@@ -29,12 +32,17 @@ public class HomeFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_home, container, false);
-
-        String uid = "1234567";
+        user = FirebaseAuth.getInstance().getCurrentUser();
         totalProducts = view.findViewById(R.id.totalProducts);
-        databaseReference = FirebaseDatabase.getInstance().getReference().child("products").child(uid);
+        if(user!=null){
+            String uid = user.getUid();
+            databaseReference = FirebaseDatabase.getInstance().getReference().child("products").child(uid);
+            getTotalProducts();
+        }else{
+            Toast.makeText(getContext(),"No Product Found", Toast.LENGTH_SHORT).show();
+        }
 
-        getTotalProducts();
+
 
         return view;
 

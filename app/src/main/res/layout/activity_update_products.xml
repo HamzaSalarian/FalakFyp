@@ -10,7 +10,7 @@
     android:background="@color/levenderBlush">
 
     <ImageView
-        android:id="@+id/imageView1"
+        android:id="@+id/imageView"
         android:layout_width="100dp"
         android:layout_height="100dp"
         android:layout_marginTop="32dp"
@@ -28,7 +28,7 @@
         android:inputType="text"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/imageView1" />
+        app:layout_constraintTop_toBottomOf="@id/imageView" />
 
     <EditText
         android:id="@+id/etDescription"
@@ -69,9 +69,9 @@
         android:layout_height="wrap_content"
         android:text="Select Image"
         android:backgroundTint="@color/darkpink"
-        app:layout_constraintTop_toBottomOf="@+id/imageView1"
-        app:layout_constraintStart_toStartOf="@+id/imageView1"
-        app:layout_constraintEnd_toEndOf="@id/imageView1"
+        app:layout_constraintTop_toBottomOf="@+id/imageView"
+        app:layout_constraintStart_toStartOf="@+id/imageView"
+        app:layout_constraintEnd_toEndOf="@id/imageView"
         android:layout_marginTop="20dp"
         android:onClick="onSelectImageClick" />
 

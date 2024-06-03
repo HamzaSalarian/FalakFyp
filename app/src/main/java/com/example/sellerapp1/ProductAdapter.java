@@ -4,6 +4,7 @@ import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.Intent;
+import android.media.Image;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -12,11 +13,15 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.widget.AdapterView;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -50,6 +55,12 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ViewHold
         holder.txtProductName.setText(product.getName());
         holder.txtProductDescription.setText(product.getDescription());
         holder.txtProductPrice.setText(String.format("%.2f", product.getPrice()));
+        if (product.getImageUrl() != null && !product.getImageUrl().isEmpty()){
+            Picasso.get().load(product.getImageUrl()).into(holder.tProductImage);
+        }else {
+            // Optionally, set a placeholder image if no image URL is provided
+            holder.tProductImage.setImageResource(R.drawable.baseline_image_24);
+        }
         holder.bind(product, context);
     }
 
@@ -83,12 +94,14 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ViewHold
         TextView txtProductName;
         TextView txtProductDescription;
         TextView txtProductPrice;
+        ImageView tProductImage;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
             txtProductName = itemView.findViewById(R.id.productName);
             txtProductDescription = itemView.findViewById(R.id.productDescription);
             txtProductPrice = itemView.findViewById(R.id.productPrice);
+            tProductImage = itemView.findViewById(R.id.productImage);
         }
 
         public void bind(Products product, Context context) {
@@ -136,15 +149,23 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ViewHold
 
         private void deleteProduct(String productId, Context context) {
 
-            DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference().child("products").child("1234567").child(productId);
+            FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+            if(user!=null){
+                String uid = user.getUid();
+                DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference().child("products").child(uid).child(productId);
 
-            databaseReference.removeValue().addOnCompleteListener(task -> {
-                if (task.isSuccessful()) {
-                    Toast.makeText(context, "Product deleted successfully", Toast.LENGTH_SHORT).show();
-                } else {
-                    Toast.makeText(context, "Failed to delete product", Toast.LENGTH_SHORT).show();
-                }
-            });
+                databaseReference.removeValue().addOnCompleteListener(task -> {
+                    if (task.isSuccessful()) {
+                        Toast.makeText(context, "Product deleted successfully", Toast.LENGTH_SHORT).show();
+                    } else {
+                        Toast.makeText(context, "Failed to delete product", Toast.LENGTH_SHORT).show();
+                    }
+                });
+            }else {
+                Toast.makeText(context, "No User Found", Toast.LENGTH_SHORT).show();
+            }
+
+
         }
     }
 }

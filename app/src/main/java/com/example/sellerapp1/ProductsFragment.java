@@ -15,6 +15,8 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -26,11 +28,13 @@ import java.util.List;
 
 public class ProductsFragment extends Fragment  {
 
-    private RecyclerView productRecyclerView;
-    private ProductAdapter productAdapter;
-    private List<Products> productList;
-    private Button btnAddProduct;
-    private EditText productSearchView;
+    RecyclerView productRecyclerView;
+    ProductAdapter productAdapter;
+    List<Products> productList;
+    Button btnAddProduct;
+    EditText productSearchView;
+
+    FirebaseUser user;
 
 
 
@@ -58,6 +62,7 @@ public class ProductsFragment extends Fragment  {
         productAdapter = new ProductAdapter(productList,  getContext());
         productRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         productRecyclerView.setAdapter(productAdapter);
+        user = FirebaseAuth.getInstance().getCurrentUser();
 
 
         productSearchView.addTextChangedListener(new TextWatcher() {
@@ -77,8 +82,15 @@ public class ProductsFragment extends Fragment  {
                 // Do nothing after text is changed
             }
         });
+        if(user!=null){
+            String uid = user.getUid();
+            loadProducts(uid);
 
-        loadProducts("1234567"); // Load products when fragment is created
+        }else {
+            Toast.makeText(getContext(), "No User Found", Toast.LENGTH_SHORT).show();
+        }
+
+         // Load products when fragment is created
 
         return view;
     }
@@ -87,7 +99,13 @@ public class ProductsFragment extends Fragment  {
     public void onResume() {
         super.onResume();
         // Refresh data if necessary
-        loadProducts("1234567");
+        if(user!=null){
+            String uid = user.getUid();
+            loadProducts(uid);
+
+        }else {
+            Toast.makeText(getContext(), "No User Found", Toast.LENGTH_SHORT).show();
+        }
     }
 
     private void openAddProductActivity() {

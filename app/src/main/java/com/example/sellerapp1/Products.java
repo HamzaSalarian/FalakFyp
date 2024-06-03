@@ -6,13 +6,26 @@ public class Products {
     public String name;
     public String description;
     public double price;
+    public String imageUrl;
 
-    public Products(String productId, String name, String description, double price) {
+
+    public Products(String productId, String name, String description, double price, String imageUrl) {
         this.productId = productId;
         this.name = name;
         this.description = description;
         this.price = price;
+        this.imageUrl = imageUrl;
     }
+
+    public String getImageUrl() {
+        return imageUrl;
+    }
+
+    public void setImageUrl(String imageUrl) {
+        this.imageUrl = imageUrl;
+    }
+
+
 
     public String getProductId() {
         return productId;

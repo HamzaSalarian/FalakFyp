@@ -18,12 +18,14 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseAuthUserCollisionException;
 
 import java.util.Objects;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class SignUpActivity extends AppCompatActivity {
 
     Button buttonSignUp;
-    EditText editTextEmail;
-    EditText editTextPassword;
+    EditText editTextEmail,editTextCNIC;
+    EditText editTextPassword,editTextCPassword;
     FirebaseAuth auth;
 
     @Override
@@ -35,6 +37,8 @@ public class SignUpActivity extends AppCompatActivity {
         buttonSignUp = findViewById(R.id.buttonSignUp);
         editTextEmail = findViewById(R.id.editTextEmail);
         editTextPassword = findViewById(R.id.editTextPassword);
+        editTextCNIC = findViewById(R.id.editTextCNIC);
+        editTextCPassword = findViewById(R.id.editTextCPassword);
         auth = FirebaseAuth.getInstance();
 
         // Set an OnClickListener on buttonSignUp
@@ -44,7 +48,9 @@ public class SignUpActivity extends AppCompatActivity {
                 // Create an Intent to start the MainActivity
 
                 String email = editTextEmail.getText().toString().trim();
+                String cnic = editTextCNIC.getText().toString().trim();
                 String password = editTextPassword.getText().toString().trim();
+                String cPassword = editTextCPassword.getText().toString().trim();
 
                 if (TextUtils.isEmpty(email)) {
                     editTextEmail.setError("Enter email address!");
@@ -58,6 +64,29 @@ public class SignUpActivity extends AppCompatActivity {
 
                 if (TextUtils.isEmpty(password)) {
                     editTextPassword.setError("Enter password!");
+                    return;
+                }
+                if (!isValidPassword(password)) {
+                    editTextPassword.setError("Password can only contain special characters: ^%£\"");
+                    return;
+                }
+                if(TextUtils.isEmpty(cPassword)){
+                    editTextCPassword.setError("Confirm password!");
+                    return;
+                }
+
+                if(!password.equals(cPassword)){
+                    editTextCPassword.setError("Passwords do not match!");
+                    return;
+                }
+                if (TextUtils.isEmpty(cnic)) {
+                    editTextCNIC.setError("Enter CNIC!");
+                    return;
+                }
+
+                if (!isFemaleCNIC(cnic)) {
+                    editTextCNIC.setError("Invalid CNIC or you are not female, so not verified");
+                    Toast.makeText(SignUpActivity.this, "Authentication failed", Toast.LENGTH_SHORT).show();
                     return;
                 }
 
@@ -93,6 +122,22 @@ public class SignUpActivity extends AppCompatActivity {
 
             }
         });
+    }
+
+    private boolean isFemaleCNIC(String cnic) {
+        if(cnic.length() != 13){
+            Toast.makeText(SignUpActivity.this,"Cnic Digits should be 13",Toast.LENGTH_SHORT).show();
+            return false;
+        }
+        char lastChar = cnic.charAt(cnic.length()-1);
+        return Character.isDigit(lastChar) && Character.getNumericValue(lastChar) % 2 == 0;
+    }
+
+    private boolean isValidPassword(String password) {
+        String specialCharacters = "^@%£";
+        Pattern pattern = Pattern.compile("[^a-zA-Z0-9" + Pattern.quote(specialCharacters)+ "]");
+        Matcher matcher = pattern.matcher(password);
+        return !matcher.find();
     }
 
     private void sendEmailVerification() {
