@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".SignUpActivity"
-    android:background="@color/levenderBlush">
+    android:background="@color/teal_ll">
 
     <de.hdodenhof.circleimageview.CircleImageView
         android:layout_width="200dp"
@@ -25,8 +25,8 @@
         android:layout_marginBottom="16dp"
         android:layout_below="@+id/signinLogo"
         android:hint="Email"
-        android:textColor="@color/darkpink"
-        android:textColorHint="@color/lightpink"
+        android:textColor="@color/black"
+        android:textColorHint="@color/teal_li"
         android:inputType="textEmailAddress"
         android:minHeight="48dp" />
 
@@ -41,8 +41,8 @@
         android:layout_marginBottom="16dp"
         android:layout_below="@+id/editTextEmail"
         android:hint="CNIC"
-        android:textColor="@color/darkpink"
-        android:textColorHint="@color/lightpink"
+        android:textColor="@color/black"
+        android:textColorHint="@color/teal_li"
         android:inputType="textEmailAddress"
          />
 
@@ -59,8 +59,8 @@
         android:layout_marginEnd="16dp"
         android:layout_marginBottom="16dp"
         android:hint="Password"
-        android:textColorHint="@color/lightpink"
-        android:textColor="@color/darkpink"
+        android:textColor="@color/black"
+        android:textColorHint="@color/teal_li"
         android:inputType="textPassword"
         android:minHeight="48dp" />
     <EditText
@@ -74,8 +74,8 @@
         android:layout_marginEnd="16dp"
         android:layout_marginBottom="16dp"
         android:hint="Confirm Password"
-        android:textColorHint="@color/lightpink"
-        android:textColor="@color/darkpink"
+        android:textColor="@color/black"
+        android:textColorHint="@color/teal_li"
         android:inputType="textPassword"
         android:minHeight="48dp" />
 
@@ -86,8 +86,9 @@
         android:layout_below="@id/editTextCPassword"
         android:layout_centerHorizontal="true"
         android:text="Sign Up"
-        android:backgroundTint="@color/darkpink"
-        android:textColor="@color/white"/>
+        android:backgroundTint="@color/teal_br"
+
+        android:textColor="@color/black"/>
 
     <TextView
         android:id="@+id/signUpNewUser"
@@ -101,7 +102,7 @@
         android:layout_marginBottom="16dp"
         android:textAlignment="center"
         android:text="Already Have an Account? Login"
-        android:textColor="@color/darkpink"/>
+        android:textColor="@color/teal_br"/>
 
 
 

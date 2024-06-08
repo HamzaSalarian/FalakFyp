@@ -7,7 +7,7 @@
     android:layout_height="match_parent"
     tools:context=".AddProductActivity"
     android:padding="20dp"
-    android:background="@color/levenderBlush">
+    android:background="@color/teal_ll">
 
     <ImageView
         android:id="@+id/imageView"
@@ -25,7 +25,10 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="100dp"
         android:hint="Product Name"
+        android:background="@drawable/edittextbackground"
+        android:textColorHint="@color/teal_li"
         android:inputType="text"
+        android:textColor="@color/black"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/imageView" />
@@ -36,7 +39,10 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
         android:hint="Description"
+        android:background="@drawable/edittextbackground"
+        android:textColorHint="@color/teal_li"
         android:inputType="textMultiLine"
+        android:textColor="@color/black"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/etProductName" />
@@ -47,7 +53,10 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
         android:hint="Price"
+        android:textColor="@color/black"
         android:inputType="numberDecimal"
+        android:background="@drawable/edittextbackground"
+        android:textColorHint="@color/teal_li"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/etDescription" />
@@ -57,9 +66,10 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Update"
+        android:textColor="@color/black"
         app:layout_constraintTop_toBottomOf="@+id/etPrice"
         app:layout_constraintEnd_toEndOf="parent"
-        android:backgroundTint="@color/darkpink"
+        android:backgroundTint="@color/teal_br"
         android:layout_marginTop="16dp"
         android:layout_marginEnd="16dp" />
 
@@ -68,7 +78,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Select Image"
-        android:backgroundTint="@color/darkpink"
+        android:textColor="@color/black"
+        android:backgroundTint="@color/teal_br"
         app:layout_constraintTop_toBottomOf="@+id/imageView"
         app:layout_constraintStart_toStartOf="@+id/imageView"
         app:layout_constraintEnd_toEndOf="@id/imageView"

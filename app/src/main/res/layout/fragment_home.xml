@@ -11,7 +11,7 @@
         android:id="@+id/home_logo"
         android:layout_width="match_parent"
         android:layout_height="130dp"
-        android:background="@color/levenderBlush">
+        android:background="@color/teal_br">
 
         <ImageView
             android:layout_width="100dp"
@@ -25,11 +25,13 @@
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
-    <androidx.constraintlayout.widget.ConstraintLayout
+    <RelativeLayout
         android:id="@+id/home_buttons"
         android:layout_width="match_parent"
         android:layout_height="500dp"
-        android:layout_marginTop="130dp">
+        android:layout_marginTop="130dp"
+        android:gravity="center_horizontal"
+        >
 
         <TextView
             android:id="@+id/welcome"
@@ -37,41 +39,37 @@
             android:layout_height="wrap_content"
             android:text="Welcome Back!"
             android:textSize="35dp"
-            android:textColor="@color/darkpink"
+            android:textColor="@color/black"
             android:textStyle="bold"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
             android:layout_marginTop="40dp"
-            />
+            android:layout_marginStart="50dp"/>
 
         <androidx.cardview.widget.CardView
             android:id="@+id/products_card"
-            android:layout_width="300dp"
-            android:layout_height="100dp"
+            android:layout_width="150dp"
+            android:layout_height="150dp"
             android:layout_marginTop="50dp"
             app:cardCornerRadius="10dp"
-            app:cardBackgroundColor="@color/levenderBlush"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/welcome"
-            app:layout_constraintEnd_toEndOf="parent">
+            app:cardBackgroundColor="@color/teal_br"
+            android:layout_below="@+id/welcome"
+            android:layout_marginEnd="20dp">
 
-            <androidx.constraintlayout.widget.ConstraintLayout
+            <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                >
+                android:padding="10dp">
 
                 <TextView
+                    android:id="@id/productsText"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Total Products"
-                    android:textStyle="italic"
+                    android:text="Products"
+                    android:textStyle="bold"
                     android:textColor="#3E2126"
-                    android:textSize="20dp"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent"
-                    android:layout_marginStart="30dp"
-                    android:layout_marginTop="20dp" />
+                    android:textSize="16dp"
+
+                    android:layout_marginTop="20dp"
+                    />
 
                 <TextView
                     android:id="@+id/totalProducts"
@@ -79,61 +77,77 @@
                     android:layout_height="wrap_content"
                     android:textColor="#3E2126"
                     android:text="0"
-                    android:textStyle="italic"
-                    android:textSize="20dp"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintTop_toTopOf="parent"
-                    android:layout_marginEnd="30dp"
-                    android:layout_marginTop="20dp"/>
+                    android:textStyle="bold"
+                    android:textSize="35dp"
+                    android:layout_below="@+id/productsText"
 
-            </androidx.constraintlayout.widget.ConstraintLayout>
+                    android:layout_marginTop="10dp"/>
+                <ImageView
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:src="@drawable/product"
+                    android:layout_toEndOf="@id/productsText"
+                    android:layout_marginStart="20dp"
+                    android:layout_marginTop="10dp"/>
+
+            </RelativeLayout>
 
         </androidx.cardview.widget.CardView>
 
         <androidx.cardview.widget.CardView
             android:id="@+id/orders_card"
-            android:layout_width="300dp"
-            android:layout_height="100dp"
-            android:layout_marginTop="40dp"
+            android:layout_width="150dp"
+            android:layout_height="150dp"
+            android:layout_marginTop="50dp"
             app:cardCornerRadius="10dp"
-            app:cardBackgroundColor="@color/levenderBlush"
+            app:cardBackgroundColor="@color/teal_br"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/products_card"
-            app:layout_constraintEnd_toEndOf="parent">
+            app:layout_constraintEnd_toEndOf="parent"
+            android:layout_below="@+id/welcome"
+            android:layout_toEndOf="@+id/products_card"
+            android:layout_marginStart="20dp">
 
-            <androidx.constraintlayout.widget.ConstraintLayout
+            <RelativeLayout
                 android:layout_width="match_parent"
-                android:layout_height="match_parent">
+                android:layout_height="match_parent"
+                android:padding="10dp">
 
                 <TextView
-                    android:layout_width="wrap_content"
+                    android:id="@+id/ordersText"
+                    android:layout_width="50dp"
                     android:layout_height="wrap_content"
                     android:text="Total Orders"
                     android:textColor="#3E2126"
-                    android:textStyle="italic"
-                    android:textSize="20dp"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent"
-                    android:layout_marginStart="30dp"
-                    android:layout_marginTop="20dp"/>
+                    android:textStyle="bold"
+                    android:textSize="16dp"
+                    android:layout_marginTop="20dp"
+                    />
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="0"
                     android:textColor="#3E2126"
-                    android:textStyle="italic"
-                    android:textSize="20dp"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintTop_toTopOf="parent"
-                    android:layout_marginEnd="30dp"
-                    android:layout_marginTop="20dp"/>
+                    android:textStyle="bold"
+                    android:textSize="35dp"
+                    android:layout_below="@+id/ordersText"
+                    android:layout_marginTop="10dp"/>
 
-            </androidx.constraintlayout.widget.ConstraintLayout>
+
+                <ImageView
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:src="@drawable/list"
+                    android:layout_toEndOf="@id/ordersText"
+                    android:layout_marginStart="35dp"
+                    android:layout_marginTop="10dp"/>
+
+            </RelativeLayout>
 
         </androidx.cardview.widget.CardView>
 
-    </androidx.constraintlayout.widget.ConstraintLayout>
+    </RelativeLayout>
 
 
     <!-- TODO: Update blank fragment layout -->

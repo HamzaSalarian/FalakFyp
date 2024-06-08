@@ -6,7 +6,7 @@
             <corners android:radius="12dp"/>
             <stroke
                 android:width="2dp"
-                android:color="@color/lightpink"/>
+                android:color="@color/teal_li"/>
             <padding
                 android:left="12dp"
                 android:top="12dp"

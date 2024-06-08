@@ -4,35 +4,53 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".ProductsFragment"
-    android:background="@color/levenderBlush">
+    android:background="@color/teal_ll">
 
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/lightpink">
+        >
+        <RelativeLayout
+            android:id="@+id/home_logo"
+            android:layout_width="match_parent"
+            android:layout_height="70dp"
+            android:background="@drawable/navbar_background"
+            >
 
-        <TextView
-            android:id="@+id/tvTitle"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textSize="25sp"
-            android:text="PRODUCTS"
-            android:textStyle="bold"
-            android:textColor="@color/darkpink"
-            android:layout_centerHorizontal="true"
-            android:layout_marginTop="20dp"/>
+            <ImageView
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:src="@drawable/back"
+                android:layout_centerVertical="true"
+                android:id="@+id/backbtn"
+                android:layout_marginStart="10dp"/>
+
+            <TextView
+                android:id="@+id/tvTitle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="20dp"
+                android:text="Products"
+                android:textStyle="bold"
+                android:textColor="@color/black"
+                android:padding="10dp"
+                android:layout_centerVertical="true"
+                android:layout_toEndOf="@+id/backbtn"/>
+
+
+        </RelativeLayout>
 
         <EditText
             android:id="@+id/productSearchView"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="20dp"
-            android:textColor="@color/darkpink"
-            android:textColorHint="@color/lightpink"
+            android:textColor="@color/black"
+            android:textColorHint="@color/teal_li"
             android:background="@drawable/edittextbackground"
             android:hint="Search Products"
             android:inputType="text"
-            android:layout_below="@+id/tvTitle"/>
+            android:layout_below="@+id/home_logo"/>
 
 
         <androidx.recyclerview.widget.RecyclerView
@@ -53,9 +71,9 @@
         android:layout_height="wrap_content"
         android:layout_margin="16dp"
         android:layout_gravity="bottom|end"
-        android:backgroundTint="@color/darkpink"
+        android:backgroundTint="@color/teal_br"
         android:text="+"
-        android:textColor="@color/lightpink"
+        android:textColor="@color/teal_li"
         android:textSize="25dp"
         android:elevation="6dp"
         />
