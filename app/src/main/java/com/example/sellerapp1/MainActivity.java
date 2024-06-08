@@ -8,7 +8,7 @@ import androidx.fragment.app.FragmentTransaction;
 import com.example.sellerapp1.databinding.ActivityMainBinding;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements OnFragmentInteractionListener {
 
     private ActivityMainBinding bindingVar;
 
@@ -43,5 +43,11 @@ public class MainActivity extends AppCompatActivity {
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
         fragmentTransaction.replace(R.id.frame, fragment);
         fragmentTransaction.commit();
+    }
+
+    @Override
+    public void onFragmentInteraction(int itemId) {
+        BottomNavigationView bottomNavigationView = findViewById(R.id.btmNav);
+        bottomNavigationView.setSelectedItemId(itemId);
     }
 }
