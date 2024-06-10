@@ -102,13 +102,7 @@ public class SignUpActivity extends AppCompatActivity {
                             public void onComplete(@NonNull Task<AuthResult> task) {
                                 if (task.isSuccessful()){
                                     sendEmailVerification();
-//                                    Intent intent = new Intent(SignUpActivity.this, LoginActivity.class);
-//
-//                                    // Start the MainActivity
-//                                    startActivity(intent);
-//
-//                                    // Finish the SignUpActivity to prevent going back to it using the back button
-//                                    finish();
+
                                 }else {
                                     if (task.getException() instanceof FirebaseAuthUserCollisionException) {
                                         editTextEmail.setError("This email address is already in use.");
