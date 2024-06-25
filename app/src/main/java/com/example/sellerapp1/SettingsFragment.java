@@ -1,6 +1,7 @@
 package com.example.sellerapp1;
 
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 
@@ -9,6 +10,7 @@ import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
 
+import android.support.annotation.NonNull;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -23,10 +25,20 @@ public class SettingsFragment extends Fragment {
     Button btnLogout;
 //    OnFragmentInteractionListener mListener;
     ImageView backbtn;
+    OnFragmentInteractionListener mListener;
 
     FirebaseAuth auth = FirebaseAuth.getInstance();
     public SettingsFragment() {
         // Required empty public constructor
+    }
+    public void onAttach(@NonNull Context context) {
+        super.onAttach(context);
+        if (context instanceof OnFragmentInteractionListener) {
+            mListener = (OnFragmentInteractionListener) context;
+        } else {
+            throw new RuntimeException(context.toString()
+                    + " must implement OnFragmentInteractionListener");
+        }
     }
 
 
@@ -58,6 +70,9 @@ public class SettingsFragment extends Fragment {
                 HomeFragment homeFragment = new HomeFragment();
                 replaceFragment(homeFragment);
 
+                if (mListener != null) {
+                    mListener.onFragmentInteraction(R.id.home);
+                }
             }
         });
 
