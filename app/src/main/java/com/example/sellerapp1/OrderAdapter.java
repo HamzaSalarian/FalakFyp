@@ -75,7 +75,7 @@ public class OrderAdapter extends RecyclerView.Adapter<OrderAdapter.ViewHolder> 
         retrofit = ApiClient.getClient();
         apiService = retrofit.create(WooCommerceApiService.class);
 
-        Call<Order> call = apiService.updateOrder(Integer.parseInt(order.getId()), orderUpdate);
+        Call<Order> call = apiService.updateOrder(Integer.parseInt(order.getId()), orderUpdate); // wooCommerce Pre-made endpoint used wc/v3/order/{id}"
         call.enqueue(new Callback<Order>() {
             @Override
             public void onResponse(Call<Order> call, Response<Order> response) {

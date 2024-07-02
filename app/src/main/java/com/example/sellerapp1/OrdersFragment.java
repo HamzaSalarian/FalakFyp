@@ -108,7 +108,7 @@ public class OrdersFragment extends Fragment {
             Log.d(TAG, "Fetching orders for vendor: " + vendorName);
 
             OrderRequest request = new OrderRequest(orderIds, ck, cs);
-            Call<List<Order>> call = apiService.getOrders(request, page, perPage);
+            Call<List<Order>> call = apiService.getOrders(request, page, perPage); // Custom plugin used endpoint use = custom/v1/retrieve-orders
 
             call.enqueue(new Callback<List<Order>>() {
                 @Override

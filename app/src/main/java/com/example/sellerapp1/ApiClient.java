@@ -24,7 +24,6 @@ public class ApiClient {
 
                 if(sessionManager.getConsumerKey() == null || sessionManager.getConsumerSecret() == null){
                     Request request = original.newBuilder()
-                            //.addHeader("Authorization", Credentials.basic(sessionManager.getConsumerKey(), sessionManager.getConsumerSecret()))
                             .method(original.method(), original.body())
                             .build();
                     return chain.proceed(request);

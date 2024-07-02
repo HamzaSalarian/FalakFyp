@@ -53,7 +53,7 @@ public class HomeFragment extends Fragment {
         if (vendorName!=null){
             OrderRequest orderRequest = new OrderRequest(vendorName);
 
-            Call<OrderResponse> call = apiService.getOrdersId(orderRequest);
+            Call<OrderResponse> call = apiService.getOrdersId(orderRequest); //custom plugin endpoint used = custom/v1/vendor-orders
             call.enqueue(new Callback<OrderResponse>() {
                 @Override
                 public void onResponse(Call<OrderResponse> call, Response<OrderResponse> response) {
@@ -89,7 +89,7 @@ public class HomeFragment extends Fragment {
 
         if (userId != -1) {
             ProductRequest request = new ProductRequest(userId);
-            Call<List<Products>> call = apiService.getProducts(request, page, perPage);
+            Call<List<Products>> call = apiService.getProducts(request, page, perPage); //custom plugin used = custom/v1/product
 
             call.enqueue(new Callback<List<Products>>() {
                 @Override
@@ -125,3 +125,16 @@ public class HomeFragment extends Fragment {
         }
     }
 }
+
+
+/*  My Advice
+
+    Go to WooCommerceApiService.java class to view all the routes for the endpoint Login Activity, Products addition and updation,
+    Getting the orders by vendor and their management  are all done using the Custom plugins
+    Run the app once and then read the code according to the flow the app ran with this will make it easy to understand
+
+    Best Of Luck for your Exam
+
+    Happy coding
+
+    Hamza Shafiq*/
