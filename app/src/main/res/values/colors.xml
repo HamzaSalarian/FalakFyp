@@ -9,5 +9,7 @@
     <color name="white">#FFFFFFFF</color>
     <color name="activeColor">#F4F9F9</color>
     <color name="inactiveColor">#000000</color>
+    <color name="completed_color">#c4c4c4</color>
+    <color name="default_color">#A4EBF3</color>
 
 </resources>

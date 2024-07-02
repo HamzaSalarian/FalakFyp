@@ -1,11 +1,13 @@
 package com.example.sellerapp1;
 
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.util.Log;
 import android.util.Patterns;
 import android.view.View;
 import android.widget.Button;
@@ -13,18 +15,23 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
-import com.google.firebase.auth.AuthResult;
-import com.google.firebase.auth.FirebaseAuth;
+import com.google.gson.Gson;
+
+import java.io.IOException;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+import retrofit2.Retrofit;
 
 public class LoginActivity extends AppCompatActivity {
 
+    private static final String TAG = "LoginActivity";
     Button buttonLogin;
     TextView textViewSignUp;
-    EditText inputEmail,inputPassword;
-    FirebaseAuth auth;
-
+    EditText inputEmail, inputPassword;
+    Retrofit retrofit;
+    WooCommerceApiService apiService;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,17 +39,16 @@ public class LoginActivity extends AppCompatActivity {
         setContentView(R.layout.activity_login);
 
         buttonLogin = findViewById(R.id.buttonLogin);
-
         textViewSignUp = findViewById(R.id.signUpNewUser);
         inputEmail = findViewById(R.id.editTextEmail);
         inputPassword = findViewById(R.id.editTextPassword);
 
-        auth = FirebaseAuth.getInstance();
+        retrofit = ApiClient.getClient();
+        apiService = retrofit.create(WooCommerceApiService.class);
 
         buttonLogin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
                 String email = inputEmail.getText().toString().trim();
                 String password = inputPassword.getText().toString().trim();
 
@@ -66,36 +72,57 @@ public class LoginActivity extends AppCompatActivity {
                     return;
                 }
 
-
-                auth.signInWithEmailAndPassword(email,password)
-                        .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
-                            @Override
-                            public void onComplete(@NonNull Task<AuthResult> task) {
-
-                                if(task.isSuccessful()){
-
-                                    Intent intent = new Intent(LoginActivity.this, MainActivity.class);
-                                    startActivity(intent);
-                                    finish();
-                                }else {
-                                    String errorMessage = task.getException() != null ? task.getException().getMessage() : "Authentication failed.";
-                                    Toast.makeText(LoginActivity.this, errorMessage, Toast.LENGTH_LONG).show();
-                                }
-
-                            }
-
-                        });
+                loginUser(email, password);
             }
         });
 
         textViewSignUp.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                // Create an Intent to start the SignUpActivity
                 Intent intent = new Intent(LoginActivity.this, SignUpActivity.class);
-
-                // Start the SignUpActivity
                 startActivity(intent);
+            }
+        });
+    }
+
+    private void loginUser(String email, String password) {
+        LoginRequest loginRequest = new LoginRequest(email, password);
+
+        Gson gson = new Gson();
+        Log.d(TAG, "Request Body: " + gson.toJson(loginRequest));
+
+        Call<LoginResponse> call = apiService.loginUser(loginRequest);
+        Log.d(TAG, email + password);
+        call.enqueue(new Callback<LoginResponse>() {
+            @Override
+            public void onResponse(Call<LoginResponse> call, Response<LoginResponse> response) {
+                if (response.isSuccessful() && response.body() != null) {
+                    LoginResponse loginResponse = response.body();
+                    Toast.makeText(LoginActivity.this, "Login successful", Toast.LENGTH_SHORT).show();
+
+                    SessionManager.getInstance().setUserId(loginResponse.getUserId());
+                    SessionManager.getInstance().setConsumerKey(loginResponse.getConsumerKey());
+                    SessionManager.getInstance().setConsumerSecret(loginResponse.getConsumerSecret());
+                    SessionManager.getInstance().setVendorName(loginResponse.getVendorName());
+
+                    Intent intent = new Intent(LoginActivity.this, MainActivity.class);
+                    startActivity(intent);
+                    finish();
+                }else {
+                    try {
+                        String errorBody = response.errorBody().string();
+                        Log.e(TAG, "Login failed: " + response.code() + " - " + response.message() + " - " + errorBody);
+                        Toast.makeText(LoginActivity.this, "Login failed: " + errorBody, Toast.LENGTH_SHORT).show();
+                    } catch (IOException e) {
+                        Log.e(TAG, "Error reading error body", e);
+                    }
+                }
+            }
+
+            @Override
+            public void onFailure(Call<LoginResponse> call, Throwable t) {
+                Log.e(TAG, "Network error: " + t.getMessage(), t);
+                Toast.makeText(LoginActivity.this, "Network error: " + t.getMessage(), Toast.LENGTH_SHORT).show();
             }
         });
     }

@@ -2,16 +2,17 @@ package com.example.sellerapp1;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-
-import android.support.annotation.NonNull;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Base64;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -21,36 +22,35 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Toast;
 
-import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.ValueEventListener;
+import com.google.gson.Gson;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ProductsFragment extends Fragment  {
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+import retrofit2.Retrofit;
 
+public class ProductsFragment extends Fragment {
+
+    private static final String TAG = "ProductsFragment";
     OnFragmentInteractionListener mListener;
     ImageView backbtn;
     RecyclerView productRecyclerView;
     ProductAdapter productAdapter;
     List<Products> productList;
     Button btnAddProduct;
-
     EditText productSearchView;
-
-    FirebaseUser user;
-
-
+    Retrofit retrofit;
+    WooCommerceApiService apiService;
 
     public ProductsFragment() {
         // Required empty public constructor
     }
 
+    @Override
     public void onAttach(@NonNull Context context) {
         super.onAttach(context);
         if (context instanceof OnFragmentInteractionListener) {
@@ -67,7 +67,7 @@ public class ProductsFragment extends Fragment  {
         View view = inflater.inflate(R.layout.fragment_products, container, false);
 
         btnAddProduct = view.findViewById(R.id.btnAddProduct);
-        productSearchView = view.findViewById(R.id.productSearchView); // Ensure this ID exists in XML
+        productSearchView = view.findViewById(R.id.productSearchView);
 
         btnAddProduct.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -78,17 +78,14 @@ public class ProductsFragment extends Fragment  {
 
         productRecyclerView = view.findViewById(R.id.productRecyclerView);
         productList = new ArrayList<>();
-        productAdapter = new ProductAdapter(productList,  getContext());
+        productAdapter = new ProductAdapter(productList, getContext());
         productRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         productRecyclerView.setAdapter(productAdapter);
-        user = FirebaseAuth.getInstance().getCurrentUser();
         backbtn = view.findViewById(R.id.backbtn);
-
 
         productSearchView.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-                // Display all products before text changes
                 productAdapter.filter("");
             }
 
@@ -102,16 +99,8 @@ public class ProductsFragment extends Fragment  {
                 // Do nothing after text is changed
             }
         });
-        if(user!=null){
-            String uid = user.getUid();
-            loadProducts(uid);
 
-        }else {
-            Toast.makeText(getContext(), "No User Found", Toast.LENGTH_SHORT).show();
-        }
-
-         // Load products when fragment is created
-
+        loadProducts(1);
 
         backbtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -126,7 +115,6 @@ public class ProductsFragment extends Fragment  {
         });
 
         return view;
-
     }
 
     public void replaceFragment(Fragment fragment) {
@@ -141,13 +129,7 @@ public class ProductsFragment extends Fragment  {
     public void onResume() {
         super.onResume();
         // Refresh data if necessary
-        if(user!=null){
-            String uid = user.getUid();
-            loadProducts(uid);
-
-        }else {
-            Toast.makeText(getContext(), "No User Found", Toast.LENGTH_SHORT).show();
-        }
+        loadProducts(1);
     }
 
     private void openAddProductActivity() {
@@ -155,38 +137,56 @@ public class ProductsFragment extends Fragment  {
         startActivity(intent);
     }
 
-    private void loadProducts(String uid) {
-        // Get a reference to the products node in the Firebase Realtime Database
-        DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference().child("products").child(uid);
+    private void loadProducts(int page) {
+        final int perPage = 50;
 
-        // Add a listener to retrieve data from the database
-        databaseReference.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                productList.clear();
-                for (DataSnapshot productSnapshot : dataSnapshot.getChildren()) {
-                    Products product = productSnapshot.getValue(Products.class);
-                    if (product != null) {
-                        productList.add(product);
 
+
+
+        retrofit = ApiClient.getClient();
+        apiService = retrofit.create(WooCommerceApiService.class);
+
+        int userId = SessionManager.getInstance().getUserId();
+
+        if (userId != -1) {
+            ProductRequest request = new ProductRequest(userId);
+            Call<List<Products>> call = apiService.getProducts(request, page, perPage);
+
+            call.enqueue(new Callback<List<Products>>() {
+                @Override
+                public void onResponse(Call<List<Products>> call, Response<List<Products>> response) {
+                    if (response.isSuccessful() && response.body() != null) {
+
+                        Gson gson = new Gson();
+                        String jsonResponse = gson.toJson(response.body());
+                        Log.d(TAG, "Response Body: " + jsonResponse);
+                        productList.clear();
+                        productList.addAll(response.body());
+                        if (productList.size() == perPage) {
+                            loadProducts(page + 1);
+                        }
+                        productAdapter.updateFullList(productList);
+                        productAdapter.notifyDataSetChanged();
                     } else {
-                        Toast.makeText(getContext(),"No products", Toast.LENGTH_SHORT).show();
+                        try {
+                            Log.e(TAG, "Failed to load products: " + response.code() + " - " + response.message());
+                            Log.e(TAG, "Error body: " + response.errorBody().string());
+                        } catch (IOException e) {
+                            Log.e(TAG, "Failed to read error body", e);
+                        }
+                        Toast.makeText(getContext(), "Failed to load products: " + response.message(), Toast.LENGTH_SHORT).show();
                     }
                 }
-                productAdapter.updateFullList(productList);
-                productAdapter.notifyDataSetChanged();
-            }
 
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
-                Toast.makeText(getContext(), "Failed to load products", Toast.LENGTH_SHORT).show();
-            }
-        });
-
-
-
-
-
+                @Override
+                public void onFailure(Call<List<Products>> call, Throwable t) {
+                    Toast.makeText(getContext(), "Network Error: " + t.getMessage(), Toast.LENGTH_SHORT).show();
+                    Log.e(TAG, "Network Error: " + t.getMessage(), t);
+                }
+            });
+        } else {
+            Toast.makeText(getContext(), "User not logged in", Toast.LENGTH_SHORT).show();
+        }
     }
 
 
