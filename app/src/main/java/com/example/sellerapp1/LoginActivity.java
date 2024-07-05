@@ -104,6 +104,7 @@ public class LoginActivity extends AppCompatActivity {
                     SessionManager.getInstance().setConsumerKey(loginResponse.getConsumerKey());
                     SessionManager.getInstance().setConsumerSecret(loginResponse.getConsumerSecret());
                     SessionManager.getInstance().setVendorName(loginResponse.getVendorName());
+                    
 
                     Intent intent = new Intent(LoginActivity.this, MainActivity.class);
                     startActivity(intent);

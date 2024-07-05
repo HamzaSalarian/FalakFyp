@@ -105,10 +105,14 @@ public class AddProductActivity extends AppCompatActivity {
     }
 
     private void createProductInWooCommerce(String imageUrl){
-        SharedPreferences sharedPref = getSharedPreferences("user_prefs", Context.MODE_PRIVATE);
-        int vendorId = sharedPref.getInt("user_id", -1);
-        String ck = sharedPref.getString("consumer_key", null);
-        String cs = sharedPref.getString("consumer_secret", null);
+
+
+        int vendorId = SessionManager.getInstance().getUserId();
+
+
+
+            String vid = String.valueOf(vendorId);
+            Toast.makeText(this, "Vendor Id = "+vid, Toast.LENGTH_SHORT);
 
         if (vendorId == -1) {
             Log.e(TAG, "Vendor ID not found in SharedPreferences");

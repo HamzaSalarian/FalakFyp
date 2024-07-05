@@ -67,9 +67,8 @@ public class UpdateProductsActivity extends AppCompatActivity {
 
         Toast.makeText(UpdateProductsActivity.this, prodId, Toast.LENGTH_SHORT).show();
 
-        SharedPreferences sharedPref = getSharedPreferences("user_prefs", Context.MODE_PRIVATE);
-        String consumerKey = sharedPref.getString("consumer_key", null);
-        String consumerSecret = sharedPref.getString("consumer_secret", null);
+        String consumerKey = SessionManager.getInstance().getConsumerKey();
+        String consumerSecret = SessionManager.getInstance().getConsumerSecret();
 
         if (consumerKey == null || consumerSecret == null) {
             Log.e(TAG, "Consumer Key or Consumer Secret not found in SharedPreferences");

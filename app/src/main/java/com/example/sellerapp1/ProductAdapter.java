@@ -134,9 +134,8 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ViewHold
         }
 
         private void deleteProduct(int productId, Context context) {
-            SharedPreferences sharedPref = context.getSharedPreferences("user_prefs", Context.MODE_PRIVATE);
-            String consumerKey = sharedPref.getString("consumer_key", null);
-            String consumerSecret = sharedPref.getString("consumer_secret", null);
+            String consumerKey = SessionManager.getInstance().getConsumerKey();
+            String consumerSecret = SessionManager.getInstance().getConsumerSecret();
 
             if (consumerKey == null || consumerSecret == null) {
                 Toast.makeText(context, "Consumer Key or Consumer Secret not found", Toast.LENGTH_SHORT).show();

@@ -140,9 +140,6 @@ public class ProductsFragment extends Fragment {
     private void loadProducts(int page) {
         final int perPage = 50;
 
-
-
-
         retrofit = ApiClient.getClient();
         apiService = retrofit.create(WooCommerceApiService.class);
 

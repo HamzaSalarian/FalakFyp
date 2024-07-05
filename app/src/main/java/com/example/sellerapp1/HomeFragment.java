@@ -127,14 +127,3 @@ public class HomeFragment extends Fragment {
 }
 
 
-/*  My Advice
-
-    Go to WooCommerceApiService.java class to view all the routes for the endpoint Login Activity, Products addition and updation,
-    Getting the orders by vendor and their management  are all done using the Custom plugins
-    Run the app once and then read the code according to the flow the app ran with this will make it easy to understand
-
-    Best Of Luck for your Exam
-
-    Happy coding
-
-    Hamza Shafiq*/

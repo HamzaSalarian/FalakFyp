@@ -1,3 +1,13 @@
+-keep class com.example.sellerapp1.** { *; }
+-keepclassmembers class com.example.sellerapp1.** { *; }
+-keepattributes *Annotation*
+
+
+
+
+
+
+
 # Add project specific ProGuard rules here.
 # You can control the set of applied configuration files using the
 # proguardFiles setting in build.gradle.
